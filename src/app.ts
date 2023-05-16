@@ -3,7 +3,8 @@ import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
 import config from './config/env.config';
-import TestRouter from './routes/test.router';
+import CommentsRouter from './routes/comments.router';
+import AnswersRouter from './routes/answer.router';
 
 const app = express();
 
@@ -19,5 +20,7 @@ app.use(cors())
 app.use('/uploads', express.static(path.resolve('/uploads')))
 
 //Routers
-app.use('/api/test', TestRouter);
+app.use('/api/comment', CommentsRouter);
+app.use('/api/answer',AnswersRouter);
+
 export default app;

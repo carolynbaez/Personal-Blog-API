@@ -19,7 +19,7 @@ export class BaseService<T extends Document> implements IBaseService {
     async getAll(req: Request, res: Response): Promise<Response> {
 
         try {
-            const data = await this.model.find();
+            const data = await this.model.find({deleted: false});
             return res.status(200).json(data);
         }
         catch (error) {
@@ -57,7 +57,7 @@ export class BaseService<T extends Document> implements IBaseService {
 
             const { id } = req.params;
 
-            const data = await this.model.findById(id, { password: 0 }).exec();
+            const data = await this.model.findById(id, { password: 0 }, { deleted: false }).exec();
 
             return res.status(200).json(data);
         }
