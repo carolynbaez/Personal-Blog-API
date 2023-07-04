@@ -7,7 +7,7 @@ const service = new CommentService;
 
 router.post('/', (req: Request, res: Response) => {
 
-    service.saveOne(req, res);
+    service.saveComment(req, res);
 
 });
 

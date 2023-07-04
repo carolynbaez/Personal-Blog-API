@@ -2,13 +2,14 @@ import { BaseService } from './base.service';
 import { Request, Response } from 'express';
 import { answerModel, IAnswer } from '../models/answer.model';
 import { commentModel } from '../models/comments.model';
+import { v4 as uuidv4 } from 'uuid';
 
 export default class CommentsService extends BaseService<IAnswer>{
 
     constructor() {
 
         super(answerModel);
-
+        
     }
 
     async saveAnswer(req: Request, res: Response) {
@@ -27,15 +28,20 @@ export default class CommentsService extends BaseService<IAnswer>{
 
                 }
                 else {
+                    if (!data.userId || data.userId == "") {
+
+                        data.userId = uuidv4();
+
+                    }
 
                     await answerModel.create(data);
-                    
+
                 }
 
                 return res.status(201).json({ message: "Saved successfully", "Data": data });
             }
 
-            return res.status(200).json({ message: "Cannot modify a deleted comment"});
+            return res.status(200).json({ message: "Cannot modify a deleted comment" });
 
         }
         catch (error) {
@@ -51,7 +57,7 @@ export default class CommentsService extends BaseService<IAnswer>{
 
             const { comment } = req.params;
 
-            const data = await answerModel.find({ comment: comment });
+            const data = await answerModel.find({ comment: comment, deleted: false });
 
             return res.status(200).json(data);
         }

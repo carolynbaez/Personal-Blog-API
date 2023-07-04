@@ -7,7 +7,7 @@ const service = new AnswerService;
 
 router.post('/', (req: Request, res: Response) => {
 
-    service.saveOne(req, res);
+    service.saveAnswer(req, res);
 
 });
 
